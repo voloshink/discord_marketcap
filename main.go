@@ -253,7 +253,7 @@ func makeEmbed(t tickerResponse) *discordgo.MessageEmbed {
 	parsed24H, err := strconv.ParseFloat(t.Change24H, 64)
 	if err == nil {
 		fields = append(fields, &discordgo.MessageEmbedField{
-			Name:   "Percent Change 1 hour",
+			Name:   "Percent Change 24 hours",
 			Value:  fmt.Sprintf("%.2f%%", parsed24H),
 			Inline: true,
 		})
@@ -262,7 +262,7 @@ func makeEmbed(t tickerResponse) *discordgo.MessageEmbed {
 	parsed7D, err := strconv.ParseFloat(t.Change7D, 64)
 	if err == nil {
 		fields = append(fields, &discordgo.MessageEmbedField{
-			Name:   "Percent Change 1 hour",
+			Name:   "Percent Change 1 week",
 			Value:  fmt.Sprintf("%.2f%%", parsed7D),
 			Inline: true,
 		})
