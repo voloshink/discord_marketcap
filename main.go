@@ -48,7 +48,7 @@ var (
 	rateLimit    = time.Second * 30
 	updateRate   = time.Minute * 5
 	lastMessages = make(map[string]time.Time)
-	channels     = []string{"322882023825997845, 229807580367683584"}
+	channels     = []string{"322882023825997845", "229807580367683584"}
 )
 
 func init() {
