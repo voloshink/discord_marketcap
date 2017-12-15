@@ -44,12 +44,18 @@ const (
 )
 
 var (
-	tickers     = make([]tickerResponse, 0)
-	lastMessage = time.Now()
-	rateLimit   = time.Second * 30
-	updateRate  = time.Minute * 5
-	channels    = []string{"322882023825997845, 229807580367683584"}
+	tickers      = make([]tickerResponse, 0)
+	rateLimit    = time.Second * 30
+	updateRate   = time.Minute * 5
+	lastMessages = make(map[string]time.Time)
+	channels     = []string{"322882023825997845, 229807580367683584"}
 )
+
+func init() {
+	for _, c := range channels {
+		lastMessages[c] = time.Now()
+	}
+}
 
 func main() {
 
@@ -162,7 +168,7 @@ func messageHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 		return
 	}
 
-	if time.Since(lastMessage) < rateLimit {
+	if time.Since(lastMessages[m.ChannelID]) < rateLimit {
 		log.Println("Rate limited")
 		return
 	}
@@ -187,7 +193,7 @@ func sendTickerMessage(t tickerResponse, s *discordgo.Session, m *discordgo.Mess
 		log.Println(err)
 	}
 
-	lastMessage = time.Now()
+	lastMessages[m.ChannelID] = time.Now()
 }
 
 func makeEmbed(t tickerResponse) *discordgo.MessageEmbed {
